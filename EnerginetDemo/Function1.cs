@@ -1,21 +1,23 @@
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Xml;
 using System.Xml.Serialization;
+using EnerginetDemo.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace EnerginetDemo
 {
     public class Function1
     {
 
-        [FunctionName("Function2")]
+        [FunctionName("SampleMessage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -26,9 +28,12 @@ namespace EnerginetDemo
 
             var message = DeserializeMessage(requestBody);
 
-            //Serializer object om til SampleMessage. 
+            var validationResult = new SampleMessageValidator().Validate(message);
 
-            // Valider noget
+            if (!validationResult.IsValid)
+            {
+                return new BadRequestErrorMessageResult(validationResult.Errors.First().ErrorMessage);
+            }
 
             // Gem i DB 
 
