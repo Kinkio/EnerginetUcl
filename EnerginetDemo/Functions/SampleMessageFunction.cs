@@ -15,7 +15,6 @@ namespace EnerginetDemo;
 
 public class SampleMessageFunction
 {
-
     public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter,
         ISampleMessageDeserializer sampleMessageDeserializer,
         ISampleMessageValidator sampleMessageValidator,
@@ -27,13 +26,10 @@ public class SampleMessageFunction
         SampleMessageDbContext = sampleMessageDbContext;
     }
 
-    public ISampleMessageConverter SampleMessageConverter { get; }
-
-    public ISampleMessageDeserializer SampleMessageDeserializer { get; }
-
-    public ISampleMessageValidator SampleMessageValidator { get; }
-
-    public SampleMessageDbContext SampleMessageDbContext { get; }
+    private ISampleMessageConverter SampleMessageConverter { get; }
+    private ISampleMessageDeserializer SampleMessageDeserializer { get; }
+    private ISampleMessageValidator SampleMessageValidator { get; }
+    private SampleMessageDbContext SampleMessageDbContext { get; }
 
     [FunctionName("SampleMessage")]
     public async Task<IActionResult> Run(
@@ -56,7 +52,8 @@ public class SampleMessageFunction
         return new OkObjectResult(responseMessage);
     }
 
-    public SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
+    //TODO Extract to own class
+    private SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
     {
         var repository = new SampleMessageRepository(SampleMessageDbContext);
         return repository.Add(sampleMessage);
