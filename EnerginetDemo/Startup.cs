@@ -5,7 +5,6 @@ using EnerginetDemo.Common;
 using EnerginetDemo.Infrastructure;
 using EnerginetDemo.Validators;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Startup))]

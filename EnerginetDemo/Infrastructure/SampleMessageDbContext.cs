@@ -1,5 +1,4 @@
-﻿
-using EnerginetDemo.Common;
+﻿using EnerginetDemo.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnerginetDemo.Infrastructure;
