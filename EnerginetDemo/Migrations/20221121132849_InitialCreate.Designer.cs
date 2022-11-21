@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EnerginetDemo.Migrations
 {
-    [DbContext(typeof(SampleMessageContext))]
+    [DbContext(typeof(SampleMessageDbContext))]
     [Migration("20221121132849_InitialCreate")]
     partial class InitialCreate
     {

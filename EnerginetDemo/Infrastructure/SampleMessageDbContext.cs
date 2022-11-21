@@ -4,8 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnerginetDemo.Infrastructure;
 
-public class SampleMessageContext : DbContext
+public class SampleMessageDbContext : DbContext
 {
+    public SampleMessageDbContext (DbContextOptions<SampleMessageDbContext> options): base(options)
+    {
+
+    }
     public DbSet<SampleMessageDb> SampleMessages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

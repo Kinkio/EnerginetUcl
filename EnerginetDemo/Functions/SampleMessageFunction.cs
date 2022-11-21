@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
+using EnerginetDemo.Common;
 using EnerginetDemo.Infrastructure;
 using EnerginetDemo.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 
 namespace EnerginetDemo;
 
@@ -18,11 +18,13 @@ public class SampleMessageFunction
 
     public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter,
         ISampleMessageDeserializer sampleMessageDeserializer,
-        ISampleMessageValidator sampleMessageValidator)
+        ISampleMessageValidator sampleMessageValidator,
+        SampleMessageDbContext sampleMessageDbContext)
     {
         SampleMessageConverter = sampleMessageConverter;
         SampleMessageDeserializer = sampleMessageDeserializer;
         SampleMessageValidator = sampleMessageValidator;
+        SampleMessageDbContext = sampleMessageDbContext;
     }
 
     public ISampleMessageConverter SampleMessageConverter { get; }
@@ -31,12 +33,12 @@ public class SampleMessageFunction
 
     public ISampleMessageValidator SampleMessageValidator { get; }
 
+    public SampleMessageDbContext SampleMessageDbContext { get; }
+
     [FunctionName("SampleMessage")]
     public async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-        ILogger log)
+        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req)
     {
-        log.LogInformation("C# HTTP trigger function processed a request.");
         var message = await SampleMessageDeserializer.DeserializeMessageAsync(req.Body);
 
         var validationResult = SampleMessageValidator.Validate(message);
@@ -54,9 +56,9 @@ public class SampleMessageFunction
         return new OkObjectResult(responseMessage);
     }
 
-    public static SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
+    public SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
     {
-        var repository = new SampleMessageRepository(new SampleMessageContext());
+        var repository = new SampleMessageRepository(SampleMessageDbContext);
         return repository.Add(sampleMessage);
     }
 }

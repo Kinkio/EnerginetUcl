@@ -1,5 +1,4 @@
-﻿using System;
-using EnerginetDemo;
+﻿using EnerginetDemo;
 using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
 using EnerginetDemo.Common;
@@ -20,7 +19,11 @@ namespace EnerginetDemo
             builder.Services.AddSingleton<ISampleMessageConverter, SampleMessageConverter>();
             builder.Services.AddSingleton<ISampleMessageDeserializer, SampleMessageDeserializer>();
             builder.Services.AddSingleton<ISampleMessageValidator, SampleMessageValidator>();
-            builder.Services.AddDbContext<SampleMessageContext>(x => x.UseSqlServer(EnvironmentSettingNames.SqlConnectionString));
+
+            builder.Services.AddDbContext<SampleMessageDbContext>((_, options) =>
+            {
+                SampleMessageDbContextFactory.ConfigureDbContext(options);
+            });
         }
     }
 }

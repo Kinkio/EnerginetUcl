@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EnerginetDemo.Migrations
 {
-    [DbContext(typeof(SampleMessageContext))]
+    [DbContext(typeof(SampleMessageDbContext))]
     partial class SampleMessageContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
