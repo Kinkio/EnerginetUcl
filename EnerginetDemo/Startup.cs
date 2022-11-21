@@ -1,5 +1,8 @@
 ﻿using EnerginetDemo;
+using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
+using EnerginetDemo.Infrastructure;
+using EnerginetDemo.Validators;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +15,8 @@ namespace EnerginetDemo
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddSingleton<ISampleMessageConverter, SampleMessageConverter>();
+            builder.Services.AddSingleton<ISampleMessageDeserializer, SampleMessageDeserializer>();
+            builder.Services.AddSingleton<ISampleMessageValidator, SampleMessageValidator>();
         }
     }
 }

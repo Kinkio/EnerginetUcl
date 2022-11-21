@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Xml;
 using System.Xml.Serialization;
+using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
 using EnerginetDemo.Infrastructure;
 using EnerginetDemo.Validators;
@@ -19,12 +20,20 @@ namespace EnerginetDemo;
 public class SampleMessageFunction
 {
 
-    public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter)
+    public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter,
+        ISampleMessageDeserializer sampleMessageDeserializer,
+        ISampleMessageValidator sampleMessageValidator)
     {
         SampleMessageConverter = sampleMessageConverter;
+        SampleMessageDeserializer = sampleMessageDeserializer;
+        SampleMessageValidator = sampleMessageValidator;
     }
 
     public ISampleMessageConverter SampleMessageConverter { get; }
+
+    public ISampleMessageDeserializer SampleMessageDeserializer { get; }
+
+    public ISampleMessageValidator SampleMessageValidator { get; }
 
     [FunctionName("SampleMessage")]
     public async Task<IActionResult> Run(
@@ -32,12 +41,9 @@ public class SampleMessageFunction
         ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
+        var message = await SampleMessageDeserializer.DeserializeMessageAsync(req.Body);
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
-        var message = DeserializeMessage(requestBody);
-
-        var validationResult = new SampleMessageValidator().Validate(message);
+        var validationResult = SampleMessageValidator.Validate(message);
 
         if (!validationResult.IsValid)
         {
@@ -50,17 +56,6 @@ public class SampleMessageFunction
         var responseMessage = $"A message with id: {savedEntity.Id} was saved in the database";
 
         return new OkObjectResult(responseMessage);
-    }
-
-    public SampleMessage DeserializeMessage(string body)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(SampleMessage));
-
-        var stringReader = new StringReader(body);
-        using (var reader = XmlReader.Create(stringReader))
-        {
-            return (SampleMessage)serializer.Deserialize(reader);
-        }
     }
 
     public static SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
