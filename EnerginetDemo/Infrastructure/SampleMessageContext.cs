@@ -1,9 +1,18 @@
-﻿using System.Data.Entity;
+﻿
+using EnerginetDemo.Common;
+using Microsoft.EntityFrameworkCore;
 
-namespace EnerginetDemo.Infrastructure
+namespace EnerginetDemo.Infrastructure;
+
+public class SampleMessageContext : DbContext
 {
-    public class SampleMessageContext : DbContext
+    public DbSet<SampleMessageDb> SampleMessages { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        public DbSet<SampleMessageDb> SampleMessages { get; set; }
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(EnvironmentSettingNames.SqlConnectionString);
+        }
     }
 }

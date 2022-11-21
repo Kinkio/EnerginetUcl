@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnerginetDemo.Infrastructure
 {

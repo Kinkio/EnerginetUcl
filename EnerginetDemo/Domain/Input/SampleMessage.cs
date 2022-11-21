@@ -5,9 +5,9 @@ namespace EnerginetDemo;
 [XmlRoot("SampleMessage")]
 public class SampleMessage
 {
-    [XmlElement(typeof(int), ElementName = "ID")]
-    public int ID { get; set; }
+    [XmlElement(typeof(int), ElementName = "Id")]
+    public int Id { get; set; }
 
     [XmlElement(typeof(string), ElementName = "Text")]
-    public string? Text { get; set; }
+    public string Text { get; set; }
 }

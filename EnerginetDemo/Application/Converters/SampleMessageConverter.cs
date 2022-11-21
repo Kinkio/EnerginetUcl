@@ -6,7 +6,7 @@
         {
             return new SampleMessageDb()
             {
-                Id = sampleMessage.ID,
+                Id = sampleMessage.Id,
                 Text = sampleMessage.Text
             };
         }
