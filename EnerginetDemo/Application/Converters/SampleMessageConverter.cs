@@ -1,6 +1,6 @@
 ﻿namespace EnerginetDemo.Application.Converters
 {
-    public class SampleMessageConverter
+    public class SampleMessageConverter : ISampleMessageConverter
     {
         public SampleMessageDb Convert(SampleMessage sampleMessage)
         {

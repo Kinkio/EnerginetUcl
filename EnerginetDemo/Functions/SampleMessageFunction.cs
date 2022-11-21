@@ -18,8 +18,16 @@ namespace EnerginetDemo;
 
 public class SampleMessageFunction
 {
+
+    public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter)
+    {
+        SampleMessageConverter = sampleMessageConverter;
+    }
+
+    public ISampleMessageConverter SampleMessageConverter { get; }
+
     [FunctionName("SampleMessage")]
-    public static async Task<IActionResult> Run(
+    public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
     {
@@ -36,8 +44,7 @@ public class SampleMessageFunction
             return new BadRequestErrorMessageResult(validationResult.Errors.First().ErrorMessage);
         }
 
-        var sampleMessageConverter = new SampleMessageConverter();
-        var convertedSampleMessage = sampleMessageConverter.Convert(message);
+        var convertedSampleMessage = SampleMessageConverter.Convert(message);
 
         var savedEntity = SaveMessageInDatabase(convertedSampleMessage);
         var responseMessage = $"A message with id: {savedEntity.Id} was saved in the database";
@@ -45,7 +52,7 @@ public class SampleMessageFunction
         return new OkObjectResult(responseMessage);
     }
 
-    public static SampleMessage DeserializeMessage(string body)
+    public SampleMessage DeserializeMessage(string body)
     {
         XmlSerializer serializer = new XmlSerializer(typeof(SampleMessage));
 
