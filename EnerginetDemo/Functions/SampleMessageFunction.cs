@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Xml;
 using System.Xml.Serialization;
+using EnerginetDemo.Application.Converters;
 using EnerginetDemo.Infrastructure;
 using EnerginetDemo.Validators;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,10 @@ public class SampleMessageFunction
             return new BadRequestErrorMessageResult(validationResult.Errors.First().ErrorMessage);
         }
 
-        var savedEntity = SaveMessageInDatabase(message);
+        var sampleMessageConverter = new SampleMessageConverter();
+        var convertedSampleMessage = sampleMessageConverter.Convert(message);
+
+        var savedEntity = SaveMessageInDatabase(convertedSampleMessage);
         var responseMessage = $"A message with id: {savedEntity.Id} was saved in the database";
 
         return new OkObjectResult(responseMessage);
@@ -52,13 +56,9 @@ public class SampleMessageFunction
         }
     }
 
-    public static SampleMessageDb SaveMessageInDatabase(SampleMessage sampleMessage)
+    public static SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
     {
-        // Create converter
-        var dbMessage = new SampleMessageDb();
-        dbMessage.Id = sampleMessage.ID;
-        dbMessage.Text = sampleMessage.Text;
         var repository = new SampleMessageRepository(new SampleMessageContext());
-        return repository.Add(dbMessage);
+        return repository.Add(sampleMessage);
     }
 }
