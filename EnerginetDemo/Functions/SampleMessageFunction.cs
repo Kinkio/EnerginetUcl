@@ -1,10 +1,6 @@
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Xml;
-using System.Xml.Serialization;
 using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
 using EnerginetDemo.Infrastructure;
