@@ -6,12 +6,7 @@ namespace EnerginetDemo.Tests.Doubles;
 
 public class SampleMessageRepositoryFake : ISampleMessageRepository
 {
-    public SampleMessageRepositoryFake()
-    {
-        Data = new Dictionary<long, SampleMessageDb>();
-    }
-
-    private Dictionary<long, SampleMessageDb> Data { get; }
+    private Dictionary<long, SampleMessageDb> Data { get; } = new();
 
     public SampleMessageDb Add(SampleMessageDb entity)
     {

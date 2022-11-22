@@ -19,14 +19,14 @@ public class SampleMessageServiceTests
             new SampleMessageConverter(),
             new SampleMessageDeserializer(),
             new SampleMessageValidator(),
-            Repository);
+            FakeRepository);
     }
 
     private string TestDataFolder { get; }
 
     private SampleMessageService Sut { get; }
 
-    private SampleMessageRepositoryFake Repository { get; } = new();
+    private SampleMessageRepositoryFake FakeRepository { get; } = new();
 
     [Fact]
     public async Task Should_PersistSampleMessage_When_ValidXmlGiven()
@@ -39,6 +39,6 @@ public class SampleMessageServiceTests
         await Sut.HandleIncomingSampleMessage(fileStream);
 
         // Assert
-        Repository.Count().Should().Be(1);
+        FakeRepository.Count().Should().Be(1);
     }
 }
