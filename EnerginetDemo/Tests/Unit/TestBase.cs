@@ -2,7 +2,7 @@
 using AutoFixture;
 using AutoFixture.AutoMoq;
 
-namespace EnerginetDemo.Tests;
+namespace EnerginetDemo.Tests.Unit;
 
 public abstract class TestBase<TSut>
     where TSut : class

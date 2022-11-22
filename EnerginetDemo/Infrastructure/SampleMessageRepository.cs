@@ -6,17 +6,17 @@ namespace EnerginetDemo.Infrastructure;
 
 public class SampleMessageRepository : ISampleMessageRepository
 {
-    public SampleMessageRepository (SampleMessageDbContext dbDbContext)
+    public SampleMessageRepository (SampleMessageDbContext dbContext)
     {
-        DbDbContext = dbDbContext ?? throw new ArgumentNullException(nameof(dbDbContext));
+        DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    private SampleMessageDbContext DbDbContext { get; }
+    private SampleMessageDbContext DbContext { get; }
 
     public async Task<SampleMessageDb> AddAsync(SampleMessageDb entity)
     {
-        DbDbContext.SampleMessages.Add(entity);
-        await DbDbContext.SaveChangesAsync();
+        DbContext.SampleMessages.Add(entity);
+        await DbContext.SaveChangesAsync();
         return entity;
     }
 }

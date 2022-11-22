@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using EnerginetDemo.Application;
-using EnerginetDemo.Domain.Input;
 using FluentAssertions;
 using Xunit;
 

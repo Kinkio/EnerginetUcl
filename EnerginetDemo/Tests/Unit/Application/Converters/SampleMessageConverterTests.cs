@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using EnerginetDemo.Application.Converters;
-using EnerginetDemo.Domain.Database;
 using EnerginetDemo.Domain.Input;
 using FluentAssertions;
 using Xunit;
