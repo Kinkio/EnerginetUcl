@@ -1,11 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Xml.Schema;
 using EnerginetDemo.Application;
-using EnerginetDemo.Application.Converters;
-using EnerginetDemo.Application.Validators;
-using EnerginetDemo.Domain.Database;
-using EnerginetDemo.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -15,47 +11,26 @@ namespace EnerginetDemo.Functions;
 
 public class SampleMessageFunction
 {
-    public SampleMessageFunction (ISampleMessageConverter sampleMessageConverter,
-        ISampleMessageDeserializer sampleMessageDeserializer,
-        ISampleMessageValidator sampleMessageValidator,
-        SampleMessageDbContext sampleMessageDbContext)
+    public SampleMessageFunction (ISampleMessageService sampleMessageService)
     {
-        SampleMessageConverter = sampleMessageConverter;
-        SampleMessageDeserializer = sampleMessageDeserializer;
-        SampleMessageValidator = sampleMessageValidator;
-        SampleMessageDbContext = sampleMessageDbContext;
+        SampleMessageService = sampleMessageService;
     }
 
-    private ISampleMessageConverter SampleMessageConverter { get; }
-    private ISampleMessageDeserializer SampleMessageDeserializer { get; }
-    private ISampleMessageValidator SampleMessageValidator { get; }
-    private SampleMessageDbContext SampleMessageDbContext { get; }
+    private ISampleMessageService SampleMessageService { get; }
 
     [FunctionName("SampleMessage")]
     public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req)
     {
-        var message = await SampleMessageDeserializer.DeserializeMessageAsync(req.Body);
-
-        var validationResult = SampleMessageValidator.Validate(message);
-
-        if (!validationResult.IsValid)
+        try
         {
-            return new BadRequestErrorMessageResult(validationResult.Errors.First().ErrorMessage);
+            var savedMessage = await SampleMessageService.HandleIncomingSampleMessage(req.Body);
+            var responseMessage = $"A message with id: {savedMessage.Id} was saved in the database";
+            return new OkObjectResult(responseMessage);
         }
-
-        var convertedSampleMessage = SampleMessageConverter.Convert(message);
-
-        var savedEntity = SaveMessageInDatabase(convertedSampleMessage);
-        var responseMessage = $"A message with id: {savedEntity.Id} was saved in the database";
-
-        return new OkObjectResult(responseMessage);
-    }
-
-    //TODO Extract to own class
-    private SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
-    {
-        var repository = new SampleMessageRepository(SampleMessageDbContext);
-        return repository.Add(sampleMessage);
+        catch (XmlSchemaValidationException e)
+        {
+            return new BadRequestErrorMessageResult(e.Message);
+        }
     }
 }
