@@ -10,7 +10,7 @@ namespace EnerginetDemo.Tests.Unit.Application.Converters;
 public class SampleMessageConverterTests : TestBase<SampleMessageConverter>
 {
     [Fact]
-    public void Should_ConvertToSampleMessageDb_When_SampleMessageGiven()
+    public void Should_ReturnSampleMessageDb_When_SampleMessageGiven()
     {
         // Arrange
         var sampleMessage = Fixture.Create<SampleMessage>();
