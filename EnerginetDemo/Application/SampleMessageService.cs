@@ -14,19 +14,20 @@ namespace EnerginetDemo.Application
         public SampleMessageService (ISampleMessageConverter sampleMessageConverter,
             ISampleMessageDeserializer sampleMessageDeserializer,
             ISampleMessageValidator sampleMessageValidator,
-            SampleMessageDbContext sampleMessageDbContext,
             ISampleMessageRepository sampleMessageRepository)
         {
             SampleMessageConverter = sampleMessageConverter;
             SampleMessageDeserializer = sampleMessageDeserializer;
             SampleMessageValidator = sampleMessageValidator;
-            SampleMessageDbContext = sampleMessageDbContext;
             SampleMessageRepository = sampleMessageRepository;
         }
+
         private ISampleMessageConverter SampleMessageConverter { get; }
+
         private ISampleMessageDeserializer SampleMessageDeserializer { get; }
+
         private ISampleMessageValidator SampleMessageValidator { get; }
-        private SampleMessageDbContext SampleMessageDbContext { get; }
+
         private ISampleMessageRepository SampleMessageRepository { get; }
 
         public async Task<SampleMessageDb> HandleIncomingSampleMessage(Stream body)
@@ -42,12 +43,12 @@ namespace EnerginetDemo.Application
 
             var convertedSampleMessage = SampleMessageConverter.Convert(message);
 
-            return SaveMessageInDatabase(convertedSampleMessage);
+            return await SaveMessageInDatabase(convertedSampleMessage);
         }
 
-        private SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
+        private async Task<SampleMessageDb> SaveMessageInDatabase(SampleMessageDb sampleMessage)
         {
-            return SampleMessageRepository.Add(sampleMessage);
+            return await SampleMessageRepository.AddAsync(sampleMessage);
         }
     }
 }

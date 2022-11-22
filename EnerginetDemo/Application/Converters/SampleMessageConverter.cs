@@ -7,7 +7,7 @@ public class SampleMessageConverter : ISampleMessageConverter
 {
     public SampleMessageDb Convert(SampleMessage sampleMessage)
     {
-        return new SampleMessageDb()
+        return new SampleMessageDb
         {
             Text = sampleMessage.Text
         };
