@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EnerginetDemo.Domain.Database;
 
 namespace EnerginetDemo.Infrastructure;
@@ -12,10 +13,10 @@ public class SampleMessageRepository : ISampleMessageRepository
 
     private SampleMessageDbContext DbDbContext { get; }
 
-    public SampleMessageDb Add(SampleMessageDb entity)
+    public async Task<SampleMessageDb> AddAsync(SampleMessageDb entity)
     {
         DbDbContext.SampleMessages.Add(entity);
-        DbDbContext.SaveChanges();
+        await DbDbContext.SaveChangesAsync();
         return entity;
     }
 }

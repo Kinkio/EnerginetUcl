@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EnerginetDemo.Domain.Database;
 using EnerginetDemo.Infrastructure;
 
@@ -8,9 +9,9 @@ public class FakeSampleMessageRepository : ISampleMessageRepository
 {
     private Dictionary<long, SampleMessageDb> Data { get; } = new();
 
-    public SampleMessageDb Add(SampleMessageDb entity)
+    public async Task<SampleMessageDb> AddAsync(SampleMessageDb entity)
     {
-        Data.Add(NextIdentity(), entity);
+        await Task.Run(() => Data.Add(NextIdentity(), entity));
 
         return entity;
     }

@@ -43,12 +43,12 @@ namespace EnerginetDemo.Application
 
             var convertedSampleMessage = SampleMessageConverter.Convert(message);
 
-            return SaveMessageInDatabase(convertedSampleMessage);
+            return await SaveMessageInDatabase(convertedSampleMessage);
         }
 
-        private SampleMessageDb SaveMessageInDatabase(SampleMessageDb sampleMessage)
+        private async Task<SampleMessageDb> SaveMessageInDatabase(SampleMessageDb sampleMessage)
         {
-            return SampleMessageRepository.Add(sampleMessage);
+            return await SampleMessageRepository.AddAsync(sampleMessage);
         }
     }
 }

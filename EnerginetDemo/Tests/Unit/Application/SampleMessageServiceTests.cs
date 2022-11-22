@@ -48,7 +48,7 @@ public class SampleMessageServiceTests : TestBase<SampleMessageService>
         SampleMessageDeserializerMock.Verify(x => x.DeserializeMessageAsync(It.IsAny<Stream>()), Times.Once);
         SampleMessageValidatorMock.Verify(x => x.ValidateAsync(It.IsAny<SampleMessage>(), It.IsAny<CancellationToken>()), Times.Once);
         SampleMessageConverterMock.Verify(x => x.Convert(It.IsAny<SampleMessage>()), Times.Once);
-        SampleMessageRepositoryMock.Verify(x => x.Add(It.IsAny<SampleMessageDb>()), Times.Once);
+        SampleMessageRepositoryMock.Verify(x => x.AddAsync(It.IsAny<SampleMessageDb>()), Times.Once);
     }
 
     [Fact]
