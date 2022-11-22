@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
-using EnerginetDemo.Common;
+using EnerginetDemo.Application.Validators;
+using EnerginetDemo.Domain.Database;
 using EnerginetDemo.Infrastructure;
-using EnerginetDemo.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 
-namespace EnerginetDemo;
+namespace EnerginetDemo.Functions;
 
 public class SampleMessageFunction
 {

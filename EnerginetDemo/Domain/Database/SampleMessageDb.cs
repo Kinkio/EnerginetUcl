@@ -1,4 +1,4 @@
-﻿namespace EnerginetDemo;
+﻿namespace EnerginetDemo.Domain.Database;
 
 public class SampleMessageDb
 {

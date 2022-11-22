@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using EnerginetDemo.Domain.Input;
 
-namespace EnerginetDemo.Application
+namespace EnerginetDemo.Application;
+
+public interface ISampleMessageDeserializer
 {
-    public interface ISampleMessageDeserializer
-    {
-        Task<SampleMessage> DeserializeMessageAsync(Stream body);
-    }
+    Task<SampleMessage> DeserializeMessageAsync(Stream body);
 }

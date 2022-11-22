@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EnerginetDemo.Domain.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnerginetDemo.Infrastructure
+namespace EnerginetDemo.Infrastructure;
+
+public class SampleMessageRepository
 {
-    public class SampleMessageRepository
+    public SampleMessageRepository (SampleMessageDbContext dbDbContext)
     {
-        public SampleMessageRepository (SampleMessageDbContext dbDbContext)
-        {
-            DbDbContext = dbDbContext ?? throw new ArgumentNullException(nameof(dbDbContext));
-        }
+        DbDbContext = dbDbContext ?? throw new ArgumentNullException(nameof(dbDbContext));
+    }
 
-        private SampleMessageDbContext DbDbContext { get; }
+    private SampleMessageDbContext DbDbContext { get; }
 
-        public Task<SampleMessageDb> GetAsync(long id)
-        {
-            return DbDbContext.SampleMessages.SingleAsync(x => x.Id == id);
-        }
+    public Task<SampleMessageDb> GetAsync(long id)
+    {
+        return DbDbContext.SampleMessages.SingleAsync(x => x.Id == id);
+    }
 
-        public SampleMessageDb Add(SampleMessageDb entity)
-        {
-            DbDbContext.SampleMessages.Add(entity);
-            DbDbContext.SaveChanges();
-            return entity;
-        }
+    public SampleMessageDb Add(SampleMessageDb entity)
+    {
+        DbDbContext.SampleMessages.Add(entity);
+        DbDbContext.SaveChanges();
+        return entity;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace EnerginetDemo;
+namespace EnerginetDemo.Domain.Input;
 
 [XmlRoot("SampleMessage")]
 public class SampleMessage

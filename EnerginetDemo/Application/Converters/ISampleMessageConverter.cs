@@ -1,7 +1,9 @@
-﻿namespace EnerginetDemo.Application.Converters
+﻿using EnerginetDemo.Domain.Database;
+using EnerginetDemo.Domain.Input;
+
+namespace EnerginetDemo.Application.Converters;
+
+public interface ISampleMessageConverter
 {
-    public interface ISampleMessageConverter
-    {
-        SampleMessageDb Convert(SampleMessage sampleMessage);
-    }
+    SampleMessageDb Convert(SampleMessage sampleMessage);
 }

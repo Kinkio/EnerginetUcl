@@ -1,14 +1,16 @@
-﻿namespace EnerginetDemo.Application.Converters
+﻿using EnerginetDemo.Domain.Database;
+using EnerginetDemo.Domain.Input;
+
+namespace EnerginetDemo.Application.Converters;
+
+public class SampleMessageConverter : ISampleMessageConverter
 {
-    public class SampleMessageConverter : ISampleMessageConverter
+    public SampleMessageDb Convert(SampleMessage sampleMessage)
     {
-        public SampleMessageDb Convert(SampleMessage sampleMessage)
+        return new SampleMessageDb()
         {
-            return new SampleMessageDb()
-            {
-                Id = sampleMessage.Id,
-                Text = sampleMessage.Text
-            };
-        }
+            Id = sampleMessage.Id,
+            Text = sampleMessage.Text
+        };
     }
 }

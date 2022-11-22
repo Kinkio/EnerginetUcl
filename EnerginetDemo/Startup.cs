@@ -1,9 +1,9 @@
 ﻿using EnerginetDemo;
 using EnerginetDemo.Application;
 using EnerginetDemo.Application.Converters;
+using EnerginetDemo.Application.Validators;
 using EnerginetDemo.Common;
 using EnerginetDemo.Infrastructure;
-using EnerginetDemo.Validators;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 

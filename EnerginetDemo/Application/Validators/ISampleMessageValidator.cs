@@ -1,6 +1,7 @@
-﻿using FluentValidation;
+﻿using EnerginetDemo.Domain.Input;
+using FluentValidation;
 
-namespace EnerginetDemo.Validators
+namespace EnerginetDemo.Application.Validators
 {
     public interface ISampleMessageValidator : IValidator<SampleMessage>
     {
