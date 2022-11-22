@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using EnerginetDemo.Application;
@@ -7,7 +8,6 @@ using EnerginetDemo.Application.Validators;
 using EnerginetDemo.Domain.Database;
 using EnerginetDemo.Domain.Input;
 using EnerginetDemo.Infrastructure;
-using FluentValidation.Results;
 using Moq;
 using Xunit;
 
@@ -17,13 +17,18 @@ public class SampleMessageServiceTests : TestBase<SampleMessageService>
 {
     public SampleMessageServiceTests()
     {
-        SampleMessageConverterMock = Fixture.Freeze<Mock<ISampleMessageConverter>>();
         SampleMessageDeserializerMock = Fixture.Freeze<Mock<ISampleMessageDeserializer>>();
+        SampleMessageValidatorMock = Fixture.Freeze<Mock<ISampleMessageValidator>>();
+        SampleMessageConverterMock = Fixture.Freeze<Mock<ISampleMessageConverter>>();
         SampleMessageRepositoryMock = Fixture.Freeze<Mock<ISampleMessageRepository>>();
     }
 
-    private Mock<ISampleMessageConverter> SampleMessageConverterMock { get; }
     private Mock<ISampleMessageDeserializer> SampleMessageDeserializerMock { get; }
+
+    private Mock<ISampleMessageValidator> SampleMessageValidatorMock { get; }
+
+    private Mock<ISampleMessageConverter> SampleMessageConverterMock { get; }
+
     private Mock<ISampleMessageRepository> SampleMessageRepositoryMock { get; }
 
     [Fact]
@@ -36,8 +41,9 @@ public class SampleMessageServiceTests : TestBase<SampleMessageService>
         await Sut.HandleIncomingSampleMessage(stream);
 
         // Assert
-        SampleMessageConverterMock.Verify(x => x.Convert(It.IsAny<SampleMessage>()), Times.Once);
         SampleMessageDeserializerMock.Verify(x => x.DeserializeMessageAsync(It.IsAny<Stream>()), Times.Once);
+        SampleMessageValidatorMock.Verify(x => x.ValidateAsync(It.IsAny<SampleMessage>(), It.IsAny<CancellationToken>()), Times.Once);
+        SampleMessageConverterMock.Verify(x => x.Convert(It.IsAny<SampleMessage>()), Times.Once);
         SampleMessageRepositoryMock.Verify(x => x.Add(It.IsAny<SampleMessageDb>()), Times.Once);
     }
 }
