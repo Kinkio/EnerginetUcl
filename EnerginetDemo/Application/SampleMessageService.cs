@@ -14,19 +14,20 @@ namespace EnerginetDemo.Application
         public SampleMessageService (ISampleMessageConverter sampleMessageConverter,
             ISampleMessageDeserializer sampleMessageDeserializer,
             ISampleMessageValidator sampleMessageValidator,
-            SampleMessageDbContext sampleMessageDbContext,
             ISampleMessageRepository sampleMessageRepository)
         {
             SampleMessageConverter = sampleMessageConverter;
             SampleMessageDeserializer = sampleMessageDeserializer;
             SampleMessageValidator = sampleMessageValidator;
-            SampleMessageDbContext = sampleMessageDbContext;
             SampleMessageRepository = sampleMessageRepository;
         }
+
         private ISampleMessageConverter SampleMessageConverter { get; }
+
         private ISampleMessageDeserializer SampleMessageDeserializer { get; }
+
         private ISampleMessageValidator SampleMessageValidator { get; }
-        private SampleMessageDbContext SampleMessageDbContext { get; }
+
         private ISampleMessageRepository SampleMessageRepository { get; }
 
         public async Task<SampleMessageDb> HandleIncomingSampleMessage(Stream body)
