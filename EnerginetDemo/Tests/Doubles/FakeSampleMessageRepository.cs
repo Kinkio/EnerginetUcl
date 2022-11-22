@@ -4,7 +4,7 @@ using EnerginetDemo.Infrastructure;
 
 namespace EnerginetDemo.Tests.Doubles;
 
-public class SampleMessageRepositoryFake : ISampleMessageRepository
+public class FakeSampleMessageRepository : ISampleMessageRepository
 {
     private Dictionary<long, SampleMessageDb> Data { get; } = new();
 
