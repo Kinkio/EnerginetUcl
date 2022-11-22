@@ -9,7 +9,6 @@ public class SampleMessageConverter : ISampleMessageConverter
     {
         return new SampleMessageDb()
         {
-            Id = sampleMessage.Id,
             Text = sampleMessage.Text
         };
     }

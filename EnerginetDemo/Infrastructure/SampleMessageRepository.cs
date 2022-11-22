@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using EnerginetDemo.Domain.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace EnerginetDemo.Infrastructure;
 
-public class SampleMessageRepository
+public class SampleMessageRepository : ISampleMessageRepository
 {
     public SampleMessageRepository (SampleMessageDbContext dbDbContext)
     {
@@ -13,11 +11,6 @@ public class SampleMessageRepository
     }
 
     private SampleMessageDbContext DbDbContext { get; }
-
-    public Task<SampleMessageDb> GetAsync(long id)
-    {
-        return DbDbContext.SampleMessages.SingleAsync(x => x.Id == id);
-    }
 
     public SampleMessageDb Add(SampleMessageDb entity)
     {
