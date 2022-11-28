@@ -17,7 +17,7 @@ With the new 'description' field we need to add this to our code. Update the mod
 
 Since we added a new property to our SampleMessage and therefore our database model, we need to update this using migrations.
 
-[Check out the Getting started on what migrations are](Migrations.md))
+[Check out the Migrations document on what migrations are](Migrations.md))
 
 ## Add new tests
 
